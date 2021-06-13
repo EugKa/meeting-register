@@ -32,8 +32,8 @@ export const TimePicker = () => {
     },[avtiveIndex])
 
     const handleSelect = (item:ISpecialist['visitTime']['0'], idx: number) => {
-        //saved the ID of the card with time that was clicked 
-        setActiveTime(item.id)
+        //saved the Time of the card with time that was clicked 
+        setActiveTime(item.time)
         dispatch(setTime({
             id: idx,
             time: item.time
@@ -43,12 +43,13 @@ export const TimePicker = () => {
     const renderSlide = visitTime.filter((items: ISpecialist) => 
          //compare whether the active index of the specialist's slides is equal to the number of the slide, 
         // then i map the array and return the required array with visits time
-            items.slideNumber === avtiveIndex).map((items: ISpecialist) => 
-                items.visitTime.map((item: ISpecialist['visitTime']['0']) => {
+            items.slideNumber === avtiveIndex).map((filtItems: ISpecialist) => 
+                filtItems.visitTime.map((item: ISpecialist['visitTime']['0']) => {
                     return  <IonSlide key={item.id}>
                                 <TimeItem item={item} 
                                         handleSelect={handleSelect} 
                                         activeTime={activeTime}
+                                        filtItems={filtItems}
                                 />
                             </IonSlide>
             }))

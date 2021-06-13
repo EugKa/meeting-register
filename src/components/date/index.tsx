@@ -19,7 +19,7 @@ const slideOpts = {
   };
 
 export const DatePicker = () => {
-    const [activeDateCard, setActiveDateCard] = useState<number | string>('')
+    const [activeDateCard, setActiveDateCard] = useState<any>('')
     const dispatch = useAppDispatch();
 
     // getting the index of the active slide of the specialist
@@ -34,8 +34,8 @@ export const DatePicker = () => {
     },[activeIndex])
 
     const handleSelect = (item:ISpecialist['visitDate']['0'], idx: number) => {
-        //saved the ID of the card with date that was clicked 
-        setActiveDateCard(item.id)
+        //saved the values of the card with date that was clicked 
+        setActiveDateCard(item)
 
         //passing values in action
         dispatch(setDate({
@@ -49,13 +49,14 @@ export const DatePicker = () => {
     const renderSlide = visitDate.filter((items: ISpecialist) => 
         //compare whether the active index of the specialist's slides is equal to the number of the slide, 
         // then i map the array and return the required array with visits dates
-            items.slideNumber === activeIndex).map((items: ISpecialist) => 
-                items.visitDate.map((item: ISpecialist['visitDate']['0']) => {
+            items.slideNumber === activeIndex).map((filtItems: ISpecialist) => 
+                filtItems.visitDate.map((item: ISpecialist['visitDate']['0']) => {
                     return <IonSlide key={item.id}>
                     <DateItem 
                         item={item} 
                         handleSelect={handleSelect} 
                         activeDateCard={activeDateCard}
+                        filtItems={filtItems}
                     />
                 </IonSlide>
             }))
